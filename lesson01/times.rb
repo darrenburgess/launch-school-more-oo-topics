@@ -1,3 +1,6 @@
+require 'byebug'
+#byebug
+
 def times(number)
   counter = 0
   while counter < number do
