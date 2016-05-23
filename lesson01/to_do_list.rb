@@ -26,6 +26,10 @@ class ToDo
     self.done = false
   end
 
+  def undone?
+    done == false
+  end
+
   def to_s
     "[#{done? ? DONE_MARKER : UNDONE_MARKER}] #{title}"
   end
@@ -79,10 +83,9 @@ class ToDoList
   end
 
   def to_s
-    puts "---- #{title} ----\n"
-    @todos.each do |todo|
-      puts todo.to_s
-    end
+    text = "---- #{title} ----\n"
+    text << @todos.map(&:to_s).join("\n")
+    text
   end
 
   def each
@@ -105,6 +108,30 @@ class ToDoList
     end
     list
   end
+
+  def find_by_title(title)
+    select {|todo| todo.title == title}.first
+  end
+
+  def all_done
+    select {|todo| todo.done? }
+  end
+
+  def all_not_done
+    select {|todo| todo.undone? }
+  end
+
+  def mark_done(title)
+    find_by_title(title).done!
+  end
+
+  def mark_all_done
+    each {|todo| todo.done! }
+  end
+
+  def mark_all_undone
+    each {|todo| todo.undone! }
+  end
 end
 
 todo1 = ToDo.new("Buy milk")
@@ -113,15 +140,11 @@ todo3 = ToDo.new("Go to gym")
 
 list = ToDoList.new("Today's Todos")
 
-list.add(todo1) # adds todo1 to end of list, returns list
-list.add(todo2) # adds todo2 to end of list, returns list
-list.add(todo3) # adds todo3 to end of list, returns list
-
 todo1.done!
 
-results = list.select { |todo| todo.done? }
+list.add(todo1)
+list.add(todo2)
+list.add(todo3)
 
-puts '---------------'
-puts results.inspect
-
-
+list.mark_done("Buy milk")
+puts list
