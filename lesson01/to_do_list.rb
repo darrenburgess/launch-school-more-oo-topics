@@ -32,8 +32,7 @@ class ToDo
 end
 
 class ToDoList
-  attr_accessor :title, :todos
-
+  attr_accessor :title
   def initialize(title)
     @title = title
     @todos = []
@@ -41,38 +40,38 @@ class ToDoList
 
   def add(todo)
     if todo.class == ToDo
-      todos << todo
+      @todos << todo
     else
       raise TypeError, "Can only add Todo objects"
     end
   end
 
   def size
-    todos.size
+    @todos.size
   end
 
   def first
-    todos.first
+    @todos.first
   end
 
   def last
-    todos.last
+    @todos.last
   end
 
   def item_at(index)
-    todos.fetch(index)
+    @todos.fetch(index)
   end
 
   def mark_done_at(index)
-    todos[index].done!
+    @todos[index].done!
   end
 
   def shift
-    todos.shift
+    @todos.shift
   end
 
   def pop
-    todos.pop
+    @todos.pop
   end
 
   def remove_at(index)
@@ -81,32 +80,48 @@ class ToDoList
 
   def to_s
     puts "---- #{title} ----\n"
-    todos.each do |todo|
+    @todos.each do |todo|
       puts todo.to_s
     end
   end
+
+  def each
+    counter = 0
+    while counter < @todos.size
+      yield(@todos[counter])
+      counter += 1
+    end
+    self
+  end
+
+  def select
+    array = []
+    each do |todo|
+      array << todo if yield(todo)
+    end
+    list = ToDoList.new('')
+    array.each do |item|
+      list.add(item)
+    end
+    list
+  end
 end
 
-#todo1 = ToDo.new("Buy milk")
-#todo2 = ToDo.new("Clean room")
-#todo3 = ToDo.new("Go to gym")
+todo1 = ToDo.new("Buy milk")
+todo2 = ToDo.new("Clean room")
+todo3 = ToDo.new("Go to gym")
 
-#list = ToDoList.new("Today's Todos")
+list = ToDoList.new("Today's Todos")
 
-#list.add(todo1) # adds todo1 to end of list, returns list
-#list.add(todo2) # adds todo2 to end of list, returns list
-#list.add(todo3) # adds todo3 to end of list, returns list
-##list.add(1)     # raises TypeError with message "Can only add Todo objects"
+list.add(todo1) # adds todo1 to end of list, returns list
+list.add(todo2) # adds todo2 to end of list, returns list
+list.add(todo3) # adds todo3 to end of list, returns list
 
-#p list.size
-#p list.first
-#p list.last
+todo1.done!
 
-#p list.item_at
-#p list.item_at 1
+results = list.select { |todo| todo.done? }
 
-#list.mark_done_at
-#list.mark_done_at(1)
-#list.to_s
+puts '---------------'
+puts results.inspect
 
 
