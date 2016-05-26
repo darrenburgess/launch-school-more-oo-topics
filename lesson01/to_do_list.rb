@@ -88,6 +88,10 @@ class ToDoList
     text
   end
 
+  def to_a
+    @todos
+  end
+
   def each
     counter = 0
     while counter < @todos.size
@@ -108,6 +112,16 @@ class ToDoList
     end
     list
   end
+
+  def done?
+    @todos.all? {|todo| todo.done?}
+  end
+
+  def <<(todo)
+    raise TypeError, 'can only add Todo objects' unless todo.instance_of? ToDo
+    @todos << todo
+  end
+  alias_method :add, :<<
 
   def find_by_title(title)
     select {|todo| todo.title == title}.first
@@ -133,18 +147,3 @@ class ToDoList
     each {|todo| todo.undone! }
   end
 end
-
-todo1 = ToDo.new("Buy milk")
-todo2 = ToDo.new("Clean room")
-todo3 = ToDo.new("Go to gym")
-
-list = ToDoList.new("Today's Todos")
-
-todo1.done!
-
-list.add(todo1)
-list.add(todo2)
-list.add(todo3)
-
-list.mark_done("Buy milk")
-puts list
