@@ -102,13 +102,9 @@ class ToDoList
   end
 
   def select
-    array = []
+    list = ToDoList.new(title)
     each do |todo|
-      array << todo if yield(todo)
-    end
-    list = ToDoList.new('')
-    array.each do |item|
-      list.add(item)
+      list.add(todo) if yield(todo)
     end
     list
   end
