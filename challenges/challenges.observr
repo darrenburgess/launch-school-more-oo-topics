@@ -1,1 +1,1 @@
-watch( '(.*)\.rb' ) {|md| system("ruby test_#{md[1]}.rb")}
+watch( '(.*)\.rb' ) {|md| system("ruby #{md[1]}_test.rb")}
