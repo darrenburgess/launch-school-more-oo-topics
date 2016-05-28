@@ -10,7 +10,6 @@ class SecretHandshake
   end
 
   def to_binary
-    # http://www.wikihow.com/Convert-from-Decimal-to-Binary
     number.to_s(2)
   end
 
