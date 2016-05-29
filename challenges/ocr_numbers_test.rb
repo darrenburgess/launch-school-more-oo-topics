@@ -1,11 +1,14 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
-require_relative 'ocr'
+require 'pry'
+
+require_relative 'ocr_numbers'
 MiniTest::Reporters.use!
 system 'clear'
 
-class OCRTest < MiniTest::Unit::TestCase
+class OCRTest < MiniTest::Test
   def test_recognize_zero
+    skip
     text = <<-NUMBER.chomp
  _
 | |
@@ -93,7 +96,6 @@ class OCRTest < MiniTest::Unit::TestCase
   end
 
   def test_recognize_eight
-    skip
     text = <<-NUMBER.chomp
  _
 |_|
