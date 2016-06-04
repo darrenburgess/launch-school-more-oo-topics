@@ -109,6 +109,7 @@ class OCRTest < MiniTest::Test
   end
 
   def test_identify_garble
+    skip
     text = <<-NUMBER.chomp
 
 | |
