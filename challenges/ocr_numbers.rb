@@ -1,114 +1,53 @@
-require 'pry'
-
 class OCR
-  attr_reader :text
-
-  NUMBERS = {
-    " _\n| |\n|_|\n" => "0",
-    "\n  |\n  |\n" => "1",
-    " _\n _|\n|_\n" => "2",
-    " _\n _|\n _|\n" => "3",
-    "\n|_|\n  |\n" => "4",
-    " _\n|_\n _|\n" => "5",
-    " _\n|_\n|_|\n" => "6",
-    " _\n  |\n  |\n" => "7",
-    " _\n|_|\n|_|\n" => "8",
-    " _\n|_|\n _|\n" => "9"
+  DIGIT_PATTERNS = {
+    ' _ | ||_|' => '0',
+    '     |  |' => '1',
+    ' _  _||_ ' => '2',
+    ' _  _| _|' => '3',
+    '   |_|  |' => '4',
+    ' _ |_  _|' => '5',
+    ' _ |_ |_|' => '6',
+    ' _   |  |' => '7',
+    ' _ |_||_|' => '8',
+    ' _ |_| _|' => '9'
   }
-
-  GARBLE = '?'
-  DIGIT_WIDTH = 3
 
   def initialize(text)
     @text = text
   end
 
+  # returns a string of digits represented by the text
   def convert
-    return convert_lines(text) if multiple_lines?
-    return convert_multiple_digits(text) if multiple_digits?
-    return convert_single_digit(text) if single_digit?
+    @text
+      .split("\n\n")
+      .map { |line| decode_digits(parse_text(line)) }
+      .join(',')
   end
 
   private
 
-  def single_digit?
-    text.split("\n").first.size <= DIGIT_WIDTH
+  # returns an array of strings, each one representing a single digit
+  def parse_text(text)
+    row1, row2, row3 = rows_in_triples(text)
+
+    row1.zip(row2).zip(row3).map(&:flatten).map(&:join)
   end
 
-  def multiple_digits?
-    text.split("\n").first.size > DIGIT_WIDTH
-  end
+  # returns an array of 3 rows, each broken into substrings of length 3
+  def rows_in_triples(text)
+    rows = text.split("\n")
 
-  def multiple_lines?
-    text.match(/\n\n/)
-  end
+    max_length = rows.map(&:length).max
 
-  def convert_single_digit(digit)
-    NUMBERS[digit] || GARBLE
-  end
-
-  def convert_multiple_digits(digits)
-    digits = parse_digits(digits)
-
-    result = ''
-    digits.each do |digit|
-      result << convert_single_digit(digit)
-    end
-
-    result
-
-    # Below could work too:
-
-    # parse_digits(digits).reduce('') do |acc, digit|
-    #   acc + convert_single_digit(digit)
-    # end
-  end
-
-  def parse_digits(digits)
-    result = []
-
-    digits.each_line do |line|
-      line.scan(/.{1,#{DIGIT_WIDTH}}/).each_with_index do |part, i|
-        result[i] ||= ''
-        result[i] << normalize_digit_row(part)
-      end
-    end
-
-    result
-  end
-
-  # single digits are not truly 3x4
-  # so we have to normalize digits from multi-digit input to match
-  def normalize_digit_row(part)
-    if part.count(' ') == DIGIT_WIDTH
-      "\n"
-    elsif part == " _ "
-      " _\n"
-    elsif part == "|_ "
-      "|_\n"
-    else
-      "#{part}\n"
+    rows.map do |row|
+      # add padding to fix row-length if necessary
+      row += ' ' * (max_length - row.size)
+      row.scan(/.{3}/)
     end
   end
 
-  def convert_lines(input)
-    lines = parse_lines(input)
-
-    result = []
-    lines.each do |line|
-      result << convert_multiple_digits(line)
-    end
-
-    result.join(',')
-
-    # Below could work too:
-
-    # parse_lines(input)
-    #  .map{|line| convert_multiple_digits(line)}
-    #  .join(',')
-  end
-
-  def parse_lines(input)
-    input.split("\n\n")
+  # returns a string of digits and/or '?'
+  def decode_digits(digit_patterns)
+    digit_patterns.map { |str| DIGIT_PATTERNS[str] || '?' }.join
   end
 end

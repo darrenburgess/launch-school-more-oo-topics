@@ -173,6 +173,7 @@ class OCRTest < MiniTest::Test
 |_||_ |_
   | _||_|
 
+
  _  _  _
   ||_||_|
   ||_| _|
