@@ -48,9 +48,3 @@ class Triplet
     result
   end
 end
-
-triangle = Triplet.new(4, 5, 3)
-
-p triangle.sum
-p triangle.product
-p triangle.pythagorean?
