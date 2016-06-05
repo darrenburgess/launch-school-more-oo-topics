@@ -3,11 +3,11 @@ require 'pry'
 class PhoneNumber
   attr_accessor :phone_number, :phone_with_letters
 
-  INVALID = "0000000000"
+  INVALID = "0" * 10
 
   def initialize(phone_number)
     @phone_number = phone_number
-    @phone_with_letters = phone_number.tr('^0-9A-Za-z', '')
+    @phone_with_letters = phone_number.tr('^A-z0-9', '')
   end
 
   def length
