@@ -19,9 +19,8 @@ class Octal2
   end
 end
 
-class Octal
+class Octal3
   attr_reader :number
-  attr_accessor :array
 
   def initialize(number)
     @number = number
@@ -59,4 +58,27 @@ class Octal
     @array.reduce(0, :+)
   end
 end
- 
+
+class Octal
+  attr_reader :number
+
+  def initialize(number)
+    @number = number
+  end
+
+  def invalid_octal?
+    number.match(/[\D89]/)
+  end
+
+  def to_decimal
+    return 0 if invalid_octal?
+    digits_reversed    = number.to_s.chars.reverse
+    digits_converted   =
+      digits_reversed.each_with_index.to_a.map do |num, idx|
+        num.to_i * 8 ** idx
+      end
+    digits_summed      = digits_converted.reduce(0, :+)
+    digits_summed
+  end
+end
+
