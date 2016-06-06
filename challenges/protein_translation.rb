@@ -16,7 +16,7 @@ class Translation
   }
 
   def self.of_codon(codon)
-    TRANSLATIONS.select {|key, value| value.include? codon}.keys[0]
+    TRANSLATIONS.select {|key, value| value.include? codon}.keys.first
   end
 
   def self.of_rna(strand)
