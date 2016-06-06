@@ -18,5 +18,3 @@ class Translation
   def self.of_rna(strand)
   end
 end
-
-p Translation.of_codon('UUU')
