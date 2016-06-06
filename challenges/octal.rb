@@ -25,6 +25,7 @@ class Octal
 
   def initialize(number)
     @number = number
+    @array = []
   end
 
   def invalid_octal?
@@ -39,20 +40,23 @@ class Octal
     sum_values_in_array
   end
 
-  private
-
-  def split_digits
-    array = number.to_s.chars
+  def split_digits_into_array
+    @array = number.to_s.chars
   end
 
   def reverse_array_of_digits
-    array.reverse!
+    @array.reverse!
   end
 
   def convert_each_digit
+    result = @array.each_with_index.to_a.map! do |num, idx|
+      (num.to_i * 8 ** idx)
+    end
+    @array = result
   end
 
   def sum_values_in_array
+    @array.reduce(0, :+)
   end
 end
  
