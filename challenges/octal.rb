@@ -2,7 +2,7 @@ require 'pry'
 
 class Octal2
   attr_reader :number
-  
+
   def initialize(number)
     @number = number
   end
@@ -14,7 +14,7 @@ class Octal2
   def to_decimal
     return 0 if invalid_octal?
     number.to_s.reverse.chars.each_with_index.map do |num, idx|
-      (num.to_i * 8 ** idx).to_i
+      (num.to_i * 8**idx).to_i
     end.reduce(0, :+)
   end
 end
@@ -49,7 +49,7 @@ class Octal3
 
   def convert_each_digit
     result = @array.each_with_index.to_a.map! do |num, idx|
-      (num.to_i * 8 ** idx)
+      (num.to_i * 8**idx)
     end
     @array = result
   end
@@ -75,10 +75,9 @@ class Octal
     digits_reversed    = number.to_s.chars.reverse
     digits_converted   =
       digits_reversed.each_with_index.to_a.map do |num, idx|
-        num.to_i * 8 ** idx
+        num.to_i * 8**idx
       end
     digits_summed      = digits_converted.reduce(0, :+)
     digits_summed
   end
 end
-
