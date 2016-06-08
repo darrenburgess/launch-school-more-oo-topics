@@ -5,18 +5,18 @@ end
 
 class Translation
   TRANSLATIONS = {
-    "Methionine"    => ["AUG"],
-    "Phenylalanine" => ["UUU", "UUC"],
-    "Leucine"       => ["UUA", "UUG"],
-    "Serine"        => ["UCU", "UCC", "UCA", "UCG"],
-    "Tyrosine"      => ["UAU", "UAC"],
-    "Cysteine"      => ["UGU", "UGC"],
-    "Tryptophan"    => ["UGG"],
-    "STOP"          => ["UAA", "UAG", "UGA"]
-  }
+    'Methionine'    => %w(AUG),
+    'Phenylalanine' => %w(UUU UUC),
+    'Leucine'       => %w(UUA UUG),
+    'Serine'        => %w(UCU UCC UCA UCG),
+    'Tyrosine'      => %w(UAU UAC),
+    'Cysteine'      => %w(UGU UGC),
+    'Tryptophan'    => %w(UGG),
+    'STOP'          => %w(UAA UAG UGA)
+  }.freeze
 
   def self.of_codon(codon)
-    TRANSLATIONS.select {|key, value| value.include? codon}.keys.first
+    TRANSLATIONS.select { |_, value| value.include? codon }.keys.first
   end
 
   def self.of_rna(strand)
@@ -24,10 +24,10 @@ class Translation
     protein_strand = []
 
     codons.each do |codon|
-      amino_acid = self.of_codon(codon)
-      raise InvalidCodonError unless amino_acid
-      break if amino_acid == "STOP"
-      protein_strand << amino_acid 
+      amino_acid = of_codon(codon)
+      fail InvalidCodonError unless amino_acid
+      break if amino_acid == 'STOP'
+      protein_strand << amino_acid
     end
 
     protein_strand
