@@ -3,7 +3,7 @@ require 'pry'
 class PhoneNumber
   attr_accessor :phone_number, :phone_with_letters
 
-  INVALID = "0" * 10
+  INVALID = '0' * 10
 
   def initialize(phone_number)
     @phone_number = phone_number
@@ -34,7 +34,7 @@ class PhoneNumber
   end
 
   def first_char_one?
-    phone_number.chr == "1"
+    phone_number.chr == '1'
   end
 
   def local_exchange
@@ -44,7 +44,6 @@ class PhoneNumber
   def line_number
     phone_number.slice(6, 4)
   end
-
 
   def initial_cleanup
     phone_number.tr!('^0-9', '')
