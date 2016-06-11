@@ -32,10 +32,6 @@ class Clock
     minutes_to_time(mins)
   end
 
-  def ==(other_clock)
-    to_s == other_clock.to_s
-  end
-
   def convert_hour
     return "0#{@hour}" if @hour < 10
     @hour
@@ -50,4 +46,7 @@ class Clock
     "#{convert_hour}:#{convert_minute}"
   end
 
+  def ==(other_clock)
+    to_s == other_clock.to_s
+  end
 end
