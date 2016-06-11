@@ -10,11 +10,11 @@ class Clock
     new(hour, minute)
   end
 
-  def to_minutes
+  def time_to_minutes
     @hour * 60 + @minute
   end
 
-  def to_time(minutes)
+  def minutes_to_time(minutes)
     @hour = minutes / 60
     @hour += 24 if @hour < 0
     @hour -= 24 if @hour >= 24 
@@ -23,13 +23,13 @@ class Clock
   end
 
   def +(minutes)
-    mins = to_minutes + minutes
-    to_time(mins)
+    mins = time_to_minutes + minutes
+    minutes_to_time(mins)
   end
 
   def -(minutes)
-    mins = to_minutes - minutes
-    to_time(mins)
+    mins = time_to_minutes - minutes
+    minutes_to_time(mins)
   end
 
   def ==(other_clock)
