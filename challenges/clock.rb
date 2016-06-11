@@ -6,7 +6,7 @@ class Clock
     @minute = minute
   end
 
-  def self.at(hour, minute=0)
+  def self.at(hour, minute = 0)
     new(hour, minute)
   end
 
@@ -17,7 +17,7 @@ class Clock
   def minutes_to_time(minutes)
     @hour = minutes / 60
     @hour += 24 if @hour < 0
-    @hour -= 24 if @hour >= 24 
+    @hour -= 24 if @hour >= 24
     @minute = minutes % 60
     self
   end
