@@ -32,18 +32,13 @@ class Clock
     minutes_to_time(mins)
   end
 
-  def convert_hour
-    return "0#{@hour}" if @hour < 10
-    @hour
-  end
-
-  def convert_minute
-    return "0#{@minute}" if @minute < 10
-    @minute
+  def normalize(digits)
+    return "0#{digits}" if digits < 10
+    digits 
   end
 
   def to_s
-    "#{convert_hour}:#{convert_minute}"
+    "#{normalize(@hour)}:#{normalize(@minute)}"
   end
 
   def ==(other_clock)
