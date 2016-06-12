@@ -1,18 +1,20 @@
 require 'pry'
 
 class Phrase
-  attr_reader :words
+  attr_reader :phrase
 
-  def initialize(words)
-    @words = words
+  def initialize(phrase)
+    @phrase = phrase
   end
 
   def word_count
     counts = Hash.new(0)
-    wordz = words.downcase
+
+    words = phrase.downcase
                  .gsub(/[^\dA-Za-z ']/, ' ')
                  .split(' ')
-    wordz.each do |word|
+
+    words.each do |word|
       word.gsub!(/[^\dA-z']|^['"]|['"]$/, '')
       counts[word] += 1
     end
