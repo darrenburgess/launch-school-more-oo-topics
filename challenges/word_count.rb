@@ -14,11 +14,7 @@ class Phrase
                  .split(' ')
     wordz.each do |word|
       word.gsub!(/[^\dA-z']|^['"]|['"]$/, '')
-      if counts[word]
-        counts[word] += 1
-      else
-        counts[word] = 1
-      end
+      counts[word] += 1
     end
 
     counts
