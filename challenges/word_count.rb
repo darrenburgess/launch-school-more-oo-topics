@@ -9,9 +9,11 @@ class Phrase
 
   def word_count
     counts = {}
-    wordz = words.split(' ')
-
+    wordz = words.downcase.gsub(/[^\dA-Za-z ']/, ' ')
+    wordz = wordz.split(' ')
     wordz.each do |word|
+      word.gsub!(/[^\dA-z']/)
+      word.gsub!(/^[']|[']$/, '')
       if counts[word]
         counts[word] += 1
       else
