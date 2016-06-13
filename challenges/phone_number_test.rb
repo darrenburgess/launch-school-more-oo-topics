@@ -16,6 +16,11 @@ class PhoneNumberTest < Minitest::Test
     assert_equal '9876543210', number
   end
 
+  def test_number_with_13_digits
+    number = PhoneNumber.new('2345678901234').number
+    assert_equal '0000000000', number
+  end
+
   def test_cleans_number_with_dots
     number = PhoneNumber.new('456.123.7890').number
     assert_equal '4561237890', number

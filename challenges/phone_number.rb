@@ -13,9 +13,9 @@ class PhoneNumber
   def number
     initial_cleanup
     return INVALID if phone_with_letters.length > length
-    phone_number.slice!(0) if first_char_one? && length == 11
+    phone_number.slice! 0 if first_char_one? && length == 11
     return INVALID if length < 10 || length == 11
-    return INVALID if length == 12 && first_char_one?
+    return INVALID if length >= 12
     phone_number
   end
 
@@ -24,7 +24,7 @@ class PhoneNumber
   end
 
   def area_code
-    number.slice(0, 3)
+    number.slice 0, 3
   end
 
   private
@@ -38,11 +38,11 @@ class PhoneNumber
   end
 
   def local_exchange
-    phone_number.slice(3, 3)
+    phone_number.slice 3, 3
   end
 
   def line_number
-    phone_number.slice(6, 4)
+    phone_number.slice 6, 4
   end
 
   def initial_cleanup
