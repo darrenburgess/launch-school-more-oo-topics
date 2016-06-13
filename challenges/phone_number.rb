@@ -7,7 +7,7 @@ class PhoneNumber
 
   def initialize(phone_number)
     @phone_number = phone_number
-    @phone_with_letters = phone_number.tr('^A-z0-9', '')
+    @phone_with_letters = phone_number.tr('^A-Za-z0-9', '')
   end
 
   def number
