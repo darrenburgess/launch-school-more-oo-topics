@@ -24,7 +24,8 @@ class PhoneNumber
   end
 
   def area_code
-    number.slice 0, 3
+    number
+    phone_number.slice 0, 3
   end
 
   private
